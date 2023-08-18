@@ -14,7 +14,7 @@ const produitSchema = mongoose.Schema({
   prix: { type: Number, required: [true, "please enter a valid price"] },
   qnt: {
     type: Number,
-    required: [true, "please enter the quantite of this product"],
+    required: [true, "please enter the quantity of this product"],
   },
   pictures: {
     type: [String],
@@ -22,9 +22,10 @@ const produitSchema = mongoose.Schema({
   },
   categorie: {
     type: String,
-    enum: ["categorie1", "categorie2", "categorie3"],
+    enum: ["lunettes", "chapeaux", "bijoux", "sacs"],
     required: [true, "please enter a valid category"],
   },
+  sex: { type: String, enum: ["homme", "femme", "unisex"], default: "unisex" },
 });
 
 produitSchema.pre("findOneAndDelete", async function (next) {
@@ -33,7 +34,6 @@ produitSchema.pre("findOneAndDelete", async function (next) {
 
     for (const file of data.pictures) {
       fs.unlinkSync(file);
-      console.log(`Deleted file: ${file}`);
     }
     next();
   } catch (error) {
