@@ -4,13 +4,8 @@ import axios from "../api/axios";
 
 const Test = () => {
   const [data, setData] = useState([]);
-  //   // Helper function to replace double backslashes with forward slashes
-  //   const formatImageFilename = (filename) => {
-  //     return filename.replace(/\\/g, "/");
-  //   };
 
   useEffect(() => {
-    // Create an async function to fetch data
     const fetchData = async () => {
       try {
         const response = await axios.get("/produits");
@@ -21,7 +16,6 @@ const Test = () => {
       }
     };
 
-    // Call the fetchData function to load data on component mount
     fetchData();
   }, []);
 

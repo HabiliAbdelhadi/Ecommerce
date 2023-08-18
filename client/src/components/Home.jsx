@@ -116,6 +116,12 @@ const Home = () => {
               color="yellowgreen"
               sx={{ borderRadius: "16px", color: "black", margin: "5px" }}
               endIcon={<KeyboardDoubleArrowDownIcon />}
+              onClick={() => {
+                window.scrollTo({
+                  top: document.getElementById("categories").offsetTop - 50,
+                  behavior: "smooth",
+                });
+              }}
             >
               Explorez plus
             </Button>
@@ -168,6 +174,7 @@ const Home = () => {
       {/* ///////////////////////////////////////////////////////////////////////////// */}
       <br />
       <Container
+        id="categories"
         maxWidth="lg"
         sx={{ display: "flex", flexDirection: "column", allignItems: "center" }}
       >
