@@ -128,7 +128,7 @@ const Contact = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    {item.link}
+                    {item.link.replace("mailto:", "")}
                   </Link>
                 </Grid>
               ))}

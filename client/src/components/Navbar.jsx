@@ -144,7 +144,7 @@ const Navbar = () => {
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <Button
               component={Link}
-              to="/produit"
+              to="/produits"
               variant="contained"
               color="yellowgreen"
               onClick={handleCloseNavMenu}

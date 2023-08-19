@@ -26,6 +26,7 @@ const produitSchema = mongoose.Schema({
     required: [true, "please enter a valid category"],
   },
   sex: { type: String, enum: ["homme", "femme", "unisex"], default: "unisex" },
+  featured: { type: Boolean, default: false },
 });
 
 produitSchema.pre("findOneAndDelete", async function (next) {

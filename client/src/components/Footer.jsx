@@ -41,7 +41,7 @@ function Footer() {
             <br />
             <Typography
               as={Link}
-              to="/produit"
+              to="/produits"
               sx={{ textDecoration: "none", color: "white" }}
             >
               Produits

@@ -32,7 +32,7 @@ function App() {
             <Route path="/" element={<Layout />}>
               {/* Public */}
               <Route path="contact" element={<Contact />}></Route>
-              <Route path="test" element={<Test />}></Route>
+              <Route path="produits" element={<Test />}></Route>
               <Route path="/" element={<Home />}></Route>
             </Route>
             {/* Private (role based) */}
