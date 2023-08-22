@@ -193,9 +193,12 @@ const Home = () => {
                 key={index}
                 sx={{
                   borderRadius: "16px",
+                  ":hover": {
+                    boxShadow: 16,
+                  },
                 }}
               >
-                <CardActionArea component={Link} to="/test">
+                <CardActionArea component={Link} to="/produits">
                   <CardMedia
                     sx={{
                       height: 200,

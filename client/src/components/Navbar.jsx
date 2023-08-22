@@ -25,8 +25,12 @@ const Navbar = () => {
   };
 
   return (
-    <AppBar position="sticky" sx={{ bgcolor: "white", borderRadius: "16px" }}>
-      <Container maxWidth="xl">
+    <AppBar
+      maxWidth="lg"
+      position="sticky"
+      sx={{ bgcolor: "white", borderRadius: "16px" }}
+    >
+      <Container maxWidth="lg">
         <Toolbar disableGutters>
           <IconButton
             component={Link}

@@ -7,7 +7,7 @@ import Navbar from "./components/Navbar";
 import Contact from "./components/Contact";
 import { CssBaseline } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material";
-import Test from "./components/Test";
+import Produits from "./components/Produits";
 import Footer from "./components/Footer";
 function App() {
   const theme = createTheme({
@@ -32,7 +32,7 @@ function App() {
             <Route path="/" element={<Layout />}>
               {/* Public */}
               <Route path="contact" element={<Contact />}></Route>
-              <Route path="produits" element={<Test />}></Route>
+              <Route path="produits" element={<Produits />}></Route>
               <Route path="/" element={<Home />}></Route>
             </Route>
             {/* Private (role based) */}

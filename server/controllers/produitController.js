@@ -23,11 +23,55 @@ exports.createProduit = async (req, res) => {
   }
 };
 
-// READ ALL (GET)
+// READ ALL (GET) + pagination
+
 exports.getAllProduits = async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+  const skip = (page - 1) * limit;
+  const categorie = req.query.categorie || null;
+  const minPrix = parseFloat(req.query.minPrix) || null;
+  const maxPrix = parseFloat(req.query.maxPrix) || null;
+  const sex = req.query.sex || null;
+  const featured = req.query.featured || null;
+  const search = req.query.search || null;
+
   try {
-    const produits = await Produit.find();
-    res.status(200).json(produits);
+    let query = Produit.find();
+
+    if (categorie) {
+      query = query.where("categorie", categorie);
+    }
+
+    if (minPrix) {
+      query = query.where("prix").gte(minPrix);
+    }
+
+    if (maxPrix) {
+      query = query.where("prix").lte(maxPrix);
+    }
+    if (sex) {
+      query = query.where("sex", sex);
+    }
+    if (featured) {
+      query = query.where("featured", featured);
+    }
+    if (search) {
+      query = query.where({
+        $or: [
+          { nom: { $regex: search, $options: "i" } },
+          { marque: { $regex: search, $options: "i" } },
+        ],
+      });
+    }
+    const total = await Produit.countDocuments(query);
+    const produits = await query.skip(skip).limit(limit);
+
+    res.status(200).json({
+      produits: produits,
+      page: page,
+      totalPages: Math.ceil(total / limit),
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -47,7 +91,7 @@ exports.getProduitById = async (req, res) => {
   }
 };
 
-// UPDATE (PUT) this doesn't touch the pictures
+// UPDATE (PUT) this doesn't touch the pictures ///////////////////////////////////////a revoir
 exports.updateProduit = async (req, res) => {
   try {
     const produit = await Produit.findById(req.params.id);
