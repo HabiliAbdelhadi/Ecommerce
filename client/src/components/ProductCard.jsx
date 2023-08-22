@@ -17,7 +17,7 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { Link } from "react-router-dom";
 
 const ProductCard = ({ data }) => {
-  if (!data || data.length === 0) {
+  if (!data) {
     return (
       <div
         style={{
@@ -31,12 +31,15 @@ const ProductCard = ({ data }) => {
       </div>
     );
   }
+  if (data.length === 0) {
+    return <p style={{ textAlign: "center" }}>No elements to show</p>;
+  }
   return (
-    <Grid container spacing={2} sx={{ marginTop: "4px" }}>
+    <Grid container spacing={2} sx={{ mt: "1px", mb: "10px" }}>
       {data.map((item) => (
         <Grid item key={item._id} xs={12} sm={4} md={3}>
           <Card
-            elevation={3}
+            elevation={2}
             sx={{
               //ana chikour bzf
               ":hover": {
