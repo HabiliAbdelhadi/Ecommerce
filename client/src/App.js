@@ -18,13 +18,18 @@ function App() {
       yellowgreen: {
         main: "#fed540",
       },
+      othercolor: { main: "#93370a" },
     },
   });
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <div
-        style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }} //pushed footer stuff
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "100vh",
+        }} //pushed footer stuff
       >
         <Navbar />
         <div style={{ flexGrow: 1 }}>

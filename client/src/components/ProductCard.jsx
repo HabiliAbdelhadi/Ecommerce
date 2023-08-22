@@ -1,12 +1,10 @@
 import React from "react";
 
 import {
-  Box,
   Button,
   Card,
   CardContent,
   CardMedia,
-  Container,
   Grid,
   Typography,
   CardActionArea,
@@ -35,7 +33,15 @@ const ProductCard = ({ data }) => {
     return <p style={{ textAlign: "center" }}>No elements to show</p>;
   }
   return (
-    <Grid container spacing={2} sx={{ mt: "1px", mb: "10px" }}>
+    <Grid
+      container
+      spacing={2}
+      sx={{
+        mt: "1px",
+        mb: "10px",
+        justifyContent: "center",
+      }}
+    >
       {data.map((item) => (
         <Grid item key={item._id} xs={12} sm={4} md={3}>
           <Card
