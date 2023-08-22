@@ -6,14 +6,16 @@ import {
   Box,
   Button,
   Card,
-  CardActions,
   CardActionArea,
   CardMedia,
-  CardContent,
+  Divider,
 } from "@mui/material";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 import { Link } from "react-router-dom";
 import Carousel from "react-material-ui-carousel";
+import ProductCard from "./ProductCard";
+import { useState, useEffect } from "react";
+import axios from "../api/axios";
 
 const Home = () => {
   const carouselItems = [
@@ -38,37 +40,21 @@ const Home = () => {
     { title: "Sacs à main", image: "Sac.png" },
   ];
 
-  const cardsData = [
-    {
-      title: "CC",
-      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    },
-    {
-      title: "CC2",
-      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    },
-    {
-      title: "CC3",
-      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    },
-    {
-      title: "CC4",
-      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    },
-    {
-      title: "CC5",
-      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    },
-    {
-      title: "CC6",
-      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    },
-    {
-      title: "CC7",
-      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    },
-  ];
+  const [data, setData] = useState([]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("/produits?featured=true");
+        setData(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
   return (
     <Container maxWidth="lg" sx={{ marginTop: "2rem" }}>
       <Grid container spacing={2}>
@@ -85,7 +71,7 @@ const Home = () => {
         >
           <Typography
             sx={{ typography: { sm: "h2", xs: "h3" } }}
-            color="#333333"
+            color="#93370a"
             gutterBottom
           >
             Accessoires haut de gamme
@@ -137,40 +123,23 @@ const Home = () => {
       </Grid>
       <br />
       {/* ///////////////////////////////////////////////////////////////////////////// */}
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={4} lg={3}>
-          <Card
-            variant="outlined"
-            sx={{
-              borderColor: "#fed540",
-              borderWidth: "2px",
-              borderRadius: "16px",
-            }}
+      <Card
+        sx={{ background: "lightgrey", borderRadius: "10px", width: "100%" }}
+        elevation={4}
+      >
+        <Divider maxWidth="100vw">
+          <Typography
+            align="center"
+            sx={{ typography: { xs: "h4", sm: "h3" } }}
+            color="#93370a"
           >
-            <CardContent>
-              <Typography
-                variant="h3"
-                color="#333333"
-                sx={{ textAlign: "center" }}
-              >
-                Produits Tendances
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-        {cardsData.map((card, index) => (
-          <Grid item xs={12} sm={6} md={4} lg={3}>
-            <Card key={index} sx={{ borderRadius: "16px" }}>
-              <CardContent>
-                <Typography variant="h3" color="initial">
-                  {card.title}
-                </Typography>
-                <Typography variant="body1">{card.content}</Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
+            Produit Tendance
+          </Typography>
+        </Divider>
+      </Card>
+
+      <ProductCard data={data.produits} />
+
       {/* ///////////////////////////////////////////////////////////////////////////// */}
       <br />
       <Container
@@ -178,14 +147,21 @@ const Home = () => {
         maxWidth="lg"
         sx={{ display: "flex", flexDirection: "column", allignItems: "center" }}
       >
-        <Typography
-          sx={{ typography: { xs: "h3", sm: "h2" } }}
-          gutterBottom
-          alignSelf="center"
+        <Card
+          sx={{ background: "lightgrey", borderRadius: "10px", width: "100%" }}
+          elevation={4}
         >
-          Categories
-        </Typography>
-        <Grid container spacing={2}>
+          <Divider maxWidth="100vw">
+            <Typography
+              align="center"
+              sx={{ typography: { xs: "h4", sm: "h3" } }}
+              color="#93370a"
+            >
+              Categories
+            </Typography>
+          </Divider>
+        </Card>
+        <Grid container spacing={2} mt={1}>
           {categories.map((cat, index) => (
             <Grid key={index} item xs={12} md={6} lg={3}>
               <Card

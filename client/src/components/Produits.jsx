@@ -2,7 +2,6 @@ import ProductCard from "./ProductCard";
 import { useState, useEffect } from "react";
 import axios from "../api/axios";
 import {
-  Box,
   Grid,
   Container,
   Typography,
@@ -12,6 +11,7 @@ import {
   Drawer,
   TextField,
   InputAdornment,
+  Pagination,
 } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import SearchIcon from "@mui/icons-material/Search";
@@ -34,11 +34,15 @@ const Produits = () => {
   }, []);
 
   const [data2, setData2] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     const fetchData2 = async () => {
       try {
-        const response = await axios.get("/produits");
+        const response = await axios.get(
+          `/produits?limit=4&page=${currentPage}&search=${search}`
+        );
         setData2(response.data);
         console.log(response.data);
       } catch (error) {
@@ -47,7 +51,7 @@ const Produits = () => {
     };
 
     fetchData2();
-  }, []);
+  }, [currentPage, search]);
 
   const [drawer, setDrawer] = useState(false);
 
@@ -67,7 +71,11 @@ const Produits = () => {
         elevation={4}
       >
         <Divider maxWidth="100vw">
-          <Typography align="center" variant="h5" color="#93370a">
+          <Typography
+            align="center"
+            sx={{ typography: { xs: "h5", sm: "h4" } }}
+            color="#93370a"
+          >
             Produit Tendance
           </Typography>
         </Divider>
@@ -84,7 +92,11 @@ const Produits = () => {
         elevation={4}
       >
         <Divider maxWidth="100vw">
-          <Typography align="center" variant="h5" color="#93370a">
+          <Typography
+            align="center"
+            sx={{ typography: { xs: "h5", sm: "h4" } }}
+            color="#93370a"
+          >
             Tous les Produits
           </Typography>
         </Divider>
@@ -100,6 +112,9 @@ const Produits = () => {
               type="search"
               size="small"
               id="search"
+              onChange={(event) => {
+                setSearch(event.target.value);
+              }}
               sx={{
                 display: "flex",
                 mx: 1,
@@ -145,6 +160,18 @@ const Produits = () => {
         cc
       </Drawer>
       <ProductCard data={data2.produits} />
+      <br />
+      {data2.totalPages > 1 ? (
+        <Pagination
+          page={currentPage}
+          onChange={(event, newPage) => {
+            setCurrentPage(newPage);
+          }}
+          count={data2.totalPages}
+          sx={{ alignSelf: "center" }}
+          color="yellowgreen"
+        />
+      ) : null}
     </Container>
   );
 };
