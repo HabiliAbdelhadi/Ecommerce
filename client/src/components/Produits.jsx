@@ -3,18 +3,28 @@ import { useState, useEffect } from "react";
 import axios from "../api/axios";
 import {
   Grid,
+  Slider,
   Container,
   Typography,
   Divider,
   Card,
   Button,
-  Drawer,
+  SwipeableDrawer,
   TextField,
   InputAdornment,
   Pagination,
+  List,
+  ListItem,
+  FormControl,
+  MenuItem,
+  InputLabel,
+  Select,
+  IconButton,
+  Box,
 } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import SearchIcon from "@mui/icons-material/Search";
+import ClearIcon from "@mui/icons-material/Clear";
 
 const Produits = () => {
   const [data1, setData1] = useState([]);
@@ -35,24 +45,40 @@ const Produits = () => {
 
   const [data2, setData2] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [search, setSearch] = useState("");
 
+  const [filter, setFilter] = useState({
+    minPrix: 0,
+    maxPrix: 20000,
+    categorie: "",
+    search: "",
+    sex: "",
+  });
   useEffect(() => {
     const fetchData2 = async () => {
       try {
         const response = await axios.get(
-          `/produits?limit=4&page=${currentPage}&search=${search}`
+          `/produits?limit=4&page=${currentPage}&search=${
+            filter?.search ? filter?.search : ""
+          }&sex=${filter?.sex ? filter?.sex : ""}&categorie=${
+            filter?.categorie ? filter?.categorie : ""
+          }&minPrix=${filter?.minPrix ? filter?.minPrix : ""}&maxPrix=${
+            filter?.maxPrix ? filter?.maxPrix : ""
+          }`
         );
         setData2(response.data);
-        console.log(response.data);
+        console.log(response);
+        console.log("cc");
       } catch (error) {
         console.error(error);
       }
     };
 
     fetchData2();
-  }, [currentPage, search]);
+  }, [currentPage, filter]);
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filter]);
   const [drawer, setDrawer] = useState(false);
 
   return (
@@ -67,8 +93,14 @@ const Produits = () => {
       }}
     >
       <Card
-        sx={{ background: "lightgrey", borderRadius: "10px", width: "100%" }}
-        elevation={4}
+        variant="outlined"
+        sx={{
+          background: "white",
+          borderRadius: "23px",
+          width: "100%",
+          borderColor: "#93370a",
+          borderWidth: "2px",
+        }}
       >
         <Divider maxWidth="100vw">
           <Typography
@@ -84,12 +116,14 @@ const Produits = () => {
       <ProductCard data={data1.produits} />
       <br />
       <Card
+        variant="outlined"
         sx={{
-          background: "lightgrey",
-          borderRadius: "10px",
+          background: "white",
+          borderRadius: "23px",
           width: "100%",
+          borderColor: "#93370a",
+          borderWidth: "2px",
         }}
-        elevation={4}
       >
         <Divider maxWidth="100vw">
           <Typography
@@ -113,10 +147,15 @@ const Produits = () => {
               size="small"
               id="search"
               onChange={(event) => {
-                setSearch(event.target.value);
+                setFilter((prevFilter) => ({
+                  ...prevFilter,
+                  search: event.target.value,
+                }));
               }}
+              color="othercolor"
               sx={{
                 display: "flex",
+                background: "white",
                 mx: 1,
               }}
               InputProps={{
@@ -128,6 +167,7 @@ const Produits = () => {
               }}
             />
           </Grid>
+
           <Grid
             item
             xs={12}
@@ -139,8 +179,8 @@ const Produits = () => {
             <Button
               endIcon={<FilterAltIcon />}
               variant="contained"
-              color="othercolor"
-              sx={{ color: "white", borderRadius: "12px" }}
+              color="yellowgreen"
+              sx={{ color: "black", borderRadius: "12px" }}
               onClick={() => {
                 setDrawer(true);
               }}
@@ -150,15 +190,117 @@ const Produits = () => {
           </Grid>
         </Grid>
       </Card>
-      <Drawer
+      <SwipeableDrawer
         anchor="left"
         open={drawer}
         onClose={() => {
           setDrawer(false);
         }}
       >
-        cc
-      </Drawer>
+        <Container
+          maxWidth="lg"
+          sx={{
+            minWidth: { xs: "85vw", sm: "75vw", md: "60vw", lg: "45vw" },
+            background: "#333333",
+            minHeight: "100%",
+            alignItems: "center",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <Box width="100%">
+            <List>
+              <ListItem>
+                <FormControl fullWidth>
+                  <InputLabel
+                    id="Sexe"
+                    sx={{ color: "black" }}
+                    color="yellowgreen"
+                  >
+                    Sexe
+                  </InputLabel>
+                  <Select
+                    color="yellowgreen"
+                    variant="standard"
+                    labelId="Sexe"
+                    id="Sexe"
+                    label="Sexe"
+                    sx={{ background: "white" }}
+                    onChange={(event) => {
+                      setFilter((prevFilter) => ({
+                        ...prevFilter,
+                        sex: event.target.value,
+                      }));
+                    }}
+                  >
+                    <MenuItem value={null}>Aucun Filtre</MenuItem>
+                    <MenuItem value={"homme"}>Homme</MenuItem>
+                    <MenuItem value={"femme"}>Femme</MenuItem>
+                    <MenuItem value={"unisex"}>Unisex</MenuItem>
+                  </Select>
+                </FormControl>
+              </ListItem>
+              <ListItem>
+                <FormControl fullWidth>
+                  <InputLabel id="Categorie" color="yellowgreen">
+                    Categorie
+                  </InputLabel>
+                  <Select
+                    color="yellowgreen"
+                    variant="standard"
+                    sx={{ background: "white" }}
+                    labelId="Categorie"
+                    id="Categorie"
+                    label="Categorie"
+                    onChange={(event) => {
+                      setFilter((prevFilter) => ({
+                        ...prevFilter,
+                        categorie: event.target.value,
+                      }));
+                    }}
+                  >
+                    <MenuItem value={null}>Aucun Filtre</MenuItem>
+                    <MenuItem value={"bijoux"}>Bijoux</MenuItem>
+                    <MenuItem value={"sacs"}>Sacs</MenuItem>
+                    <MenuItem value={"lunettes"}>Lunettes</MenuItem>
+                    <MenuItem value={"chapeaux"}>Chapeaux</MenuItem>
+                  </Select>
+                </FormControl>
+              </ListItem>
+              <ListItem>
+                <FormControl fullWidth>
+                  <InputLabel id="Prix">Prix</InputLabel>
+                  <Slider
+                    color="othercolor"
+                    value={[filter?.minPrix, filter?.maxPrix]}
+                    min={0}
+                    max={20000}
+                    step={1000}
+                    marks
+                    onChange={(event) => {
+                      setFilter((prevFilter) => ({
+                        ...prevFilter,
+                        minPrix: event.target.value[0],
+                        maxPrix: event.target.value[1],
+                      }));
+                    }}
+                    valueLabelDisplay="auto"
+                  />
+                </FormControl>
+              </ListItem>
+              <ListItem alignItems="center">
+                <Button
+                  variant="contained"
+                  color="error"
+                  endIcon={<ClearIcon />}
+                >
+                  Réinitialiser les filtres
+                </Button>
+              </ListItem>
+            </List>
+          </Box>
+        </Container>
+      </SwipeableDrawer>
       <ProductCard data={data2.produits} />
       <br />
       {data2.totalPages > 1 ? (

@@ -175,6 +175,8 @@ const Navbar = () => {
                 color: "black",
                 display: "block",
                 borderRadius: "16px",
+                borderWidth: "2px",
+                ":hover": { borderWidth: "2px" },
               }}
             >
               Contact

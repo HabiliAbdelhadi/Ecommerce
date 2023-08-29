@@ -100,7 +100,15 @@ const Home = () => {
             <Button
               variant="outlined"
               color="yellowgreen"
-              sx={{ borderRadius: "16px", color: "black", margin: "5px" }}
+              sx={{
+                borderRadius: "16px",
+                color: "black",
+                margin: "5px",
+                borderWidth: "3px",
+                ":hover": {
+                  borderWidth: "3px",
+                },
+              }}
               endIcon={<KeyboardDoubleArrowDownIcon />}
               onClick={() => {
                 window.scrollTo({
@@ -113,7 +121,7 @@ const Home = () => {
             </Button>
           </Box>
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={6} sx={{ display: { xs: "none", md: "block" } }}>
           <Carousel autoPlay interval={5000} sx={{ width: "100%" }}>
             {carouselItems.map((item, index) => (
               <Item key={index} item={item} />
@@ -124,7 +132,7 @@ const Home = () => {
       <br />
       {/* ///////////////////////////////////////////////////////////////////////////// */}
       <Card
-        sx={{ background: "lightgrey", borderRadius: "10px", width: "100%" }}
+        sx={{ background: "white", borderRadius: "23px", width: "100%" }}
         elevation={4}
       >
         <Divider maxWidth="100vw">
@@ -148,7 +156,11 @@ const Home = () => {
         sx={{ display: "flex", flexDirection: "column", allignItems: "center" }}
       >
         <Card
-          sx={{ background: "lightgrey", borderRadius: "10px", width: "100%" }}
+          sx={{
+            background: "white",
+            borderRadius: "23px",
+            width: "100%",
+          }}
           elevation={4}
         >
           <Divider maxWidth="100vw">
@@ -163,7 +175,7 @@ const Home = () => {
         </Card>
         <Grid container spacing={2} mt={1}>
           {categories.map((cat, index) => (
-            <Grid key={index} item xs={12} md={6} lg={3}>
+            <Grid key={index} item xs={12} sm={6} md={3}>
               <Card
                 variant="outlined"
                 key={index}
