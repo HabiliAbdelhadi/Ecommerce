@@ -9,6 +9,8 @@ import { CssBaseline } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material";
 import Produits from "./components/Produits";
 import Footer from "./components/Footer";
+import Produit from "./components/Produit";
+
 function App() {
   const theme = createTheme({
     typography: {
@@ -21,6 +23,7 @@ function App() {
       othercolor: { main: "#93370a" },
     },
   });
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -39,8 +42,8 @@ function App() {
               <Route path="contact" element={<Contact />}></Route>
               <Route path="produits" element={<Produits />}></Route>
               <Route path="/" element={<Home />}></Route>
+              <Route path="/produits/:id" element={<Produit />}></Route>
             </Route>
-            {/* Private (role based) */}
 
             {/* else */}
             <Route path="*" element={<Missing />}></Route>

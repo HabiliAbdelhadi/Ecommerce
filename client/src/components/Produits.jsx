@@ -9,7 +9,7 @@ import {
   Divider,
   Card,
   Button,
-  SwipeableDrawer,
+  Drawer,
   TextField,
   InputAdornment,
   Pagination,
@@ -19,12 +19,12 @@ import {
   MenuItem,
   InputLabel,
   Select,
-  IconButton,
   Box,
 } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
+import { useLocation } from "react-router-dom";
 
 const Produits = () => {
   const [data1, setData1] = useState([]);
@@ -34,7 +34,6 @@ const Produits = () => {
       try {
         const response = await axios.get("/produits?featured=true");
         setData1(response.data);
-        console.log(response.data);
       } catch (error) {
         console.error(error);
       }
@@ -46,10 +45,14 @@ const Produits = () => {
   const [data2, setData2] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
+  const location = useLocation();
+  const query = new URLSearchParams(location.search);
+  const categorie = query.get("categorie");
+
   const [filter, setFilter] = useState({
     minPrix: 0,
     maxPrix: 20000,
-    categorie: "",
+    categorie: categorie || "",
     search: "",
     sex: "",
   });
@@ -57,17 +60,9 @@ const Produits = () => {
     const fetchData2 = async () => {
       try {
         const response = await axios.get(
-          `/produits?limit=4&page=${currentPage}&search=${
-            filter?.search ? filter?.search : ""
-          }&sex=${filter?.sex ? filter?.sex : ""}&categorie=${
-            filter?.categorie ? filter?.categorie : ""
-          }&minPrix=${filter?.minPrix ? filter?.minPrix : ""}&maxPrix=${
-            filter?.maxPrix ? filter?.maxPrix : ""
-          }`
+          `/produits?limit=8&page=${currentPage}&search=${filter.search}&sex=${filter.sex}&categorie=${filter.categorie}&minPrix=${filter.minPrix}&maxPrix=${filter.maxPrix}`
         );
         setData2(response.data);
-        console.log(response);
-        console.log("cc");
       } catch (error) {
         console.error(error);
       }
@@ -102,7 +97,7 @@ const Produits = () => {
           borderWidth: "2px",
         }}
       >
-        <Divider maxWidth="100vw">
+        <Divider maxwidth="100vw">
           <Typography
             align="center"
             sx={{ typography: { xs: "h5", sm: "h4" } }}
@@ -125,7 +120,7 @@ const Produits = () => {
           borderWidth: "2px",
         }}
       >
-        <Divider maxWidth="100vw">
+        <Divider maxwidth="100vw">
           <Typography
             align="center"
             sx={{ typography: { xs: "h5", sm: "h4" } }}
@@ -190,7 +185,7 @@ const Produits = () => {
           </Grid>
         </Grid>
       </Card>
-      <SwipeableDrawer
+      <Drawer
         anchor="left"
         open={drawer}
         onClose={() => {
@@ -211,15 +206,14 @@ const Produits = () => {
           <Box width="100%">
             <List>
               <ListItem>
+                <InputLabel id="Sexe" sx={{ color: "#fed540" }}>
+                  Sexe
+                </InputLabel>
+              </ListItem>
+              <ListItem>
                 <FormControl fullWidth>
-                  <InputLabel
-                    id="Sexe"
-                    sx={{ color: "black" }}
-                    color="yellowgreen"
-                  >
-                    Sexe
-                  </InputLabel>
                   <Select
+                    value={filter.sex}
                     color="yellowgreen"
                     variant="standard"
                     labelId="Sexe"
@@ -241,11 +235,14 @@ const Produits = () => {
                 </FormControl>
               </ListItem>
               <ListItem>
+                <InputLabel id="Categorie" sx={{ color: "#fed540" }}>
+                  Categorie
+                </InputLabel>
+              </ListItem>
+              <ListItem>
                 <FormControl fullWidth>
-                  <InputLabel id="Categorie" color="yellowgreen">
-                    Categorie
-                  </InputLabel>
                   <Select
+                    value={filter.categorie}
                     color="yellowgreen"
                     variant="standard"
                     sx={{ background: "white" }}
@@ -267,12 +264,17 @@ const Produits = () => {
                   </Select>
                 </FormControl>
               </ListItem>
+
               <ListItem>
                 <FormControl fullWidth>
-                  <InputLabel id="Prix">Prix</InputLabel>
+                  <InputLabel id="Prix" sx={{ color: "#fed540" }}>
+                    Prix
+                  </InputLabel>
+                  <br />
+                  <br />
                   <Slider
-                    color="othercolor"
-                    value={[filter?.minPrix, filter?.maxPrix]}
+                    color="yellowgreen"
+                    value={[filter.minPrix, filter.maxPrix]}
                     min={0}
                     max={20000}
                     step={1000}
@@ -286,21 +288,37 @@ const Produits = () => {
                     }}
                     valueLabelDisplay="auto"
                   />
+                  <br />
                 </FormControl>
               </ListItem>
-              <ListItem alignItems="center">
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
                 <Button
                   variant="contained"
                   color="error"
                   endIcon={<ClearIcon />}
+                  onClick={() => {
+                    setFilter((prevFilter) => ({
+                      ...prevFilter,
+                      minPrix: 0,
+                      maxPrix: 20000,
+                      categorie: "",
+                      sex: "",
+                    }));
+                  }}
                 >
                   Réinitialiser les filtres
                 </Button>
-              </ListItem>
+              </Box>
             </List>
           </Box>
         </Container>
-      </SwipeableDrawer>
+      </Drawer>
       <ProductCard data={data2.produits} />
       <br />
       {data2.totalPages > 1 ? (

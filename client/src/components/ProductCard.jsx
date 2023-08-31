@@ -1,5 +1,3 @@
-import React from "react";
-
 import {
   Button,
   Card,
@@ -10,6 +8,7 @@ import {
   CardActionArea,
   CardActions,
   CircularProgress,
+  Box,
 } from "@mui/material";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { Link } from "react-router-dom";
@@ -66,16 +65,23 @@ const ProductCard = ({ data }) => {
                 title={item.nom}
                 alt={item.nom}
               />
-              <CardContent
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Typography variant="body1">{item.nom}</Typography>
-                <Typography variant="body1" color="#de7c11">
-                  {item.prix} DZD
+              <CardContent>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    mb: "3px",
+                  }}
+                >
+                  <Typography variant="body1">{item.nom}</Typography>
+                  <Typography variant="body1" color="#de7c11">
+                    {item.prix} DZD
+                  </Typography>
+                </Box>
+
+                <Typography variant="body1" color="#808080" textAlign="start">
+                  {item.marque}
                 </Typography>
               </CardContent>
             </CardActionArea>

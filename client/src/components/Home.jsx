@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Container,
   Grid,
@@ -12,7 +11,7 @@ import {
 } from "@mui/material";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 import { Link } from "react-router-dom";
-import Carousel from "react-material-ui-carousel";
+import CarouselComponent from "./CarouselComponent";
 import ProductCard from "./ProductCard";
 import { useState, useEffect } from "react";
 import axios from "../api/axios";
@@ -31,13 +30,12 @@ const Home = () => {
       image: "Acc.png",
       caption: "High-End Accessories Collection",
     },
-    // Add more carousel items as needed
   ];
   const categories = [
-    { title: "Lunettes", image: "Lunette.png" },
-    { title: "Chapeaux", image: "Chapeaux.png" },
-    { title: "Bijoux", image: "Bijoux.png" },
-    { title: "Sacs à main", image: "Sac.png" },
+    { title: "Lunettes", image: "Lunette.png", query: "lunettes" },
+    { title: "Chapeaux", image: "Chapeaux.png", query: "chapeaux" },
+    { title: "Bijoux", image: "Bijoux.png", query: "bijoux" },
+    { title: "Sacs à main", image: "Sac.png", query: "sacs" },
   ];
 
   const [data, setData] = useState([]);
@@ -47,7 +45,6 @@ const Home = () => {
       try {
         const response = await axios.get("/produits?featured=true");
         setData(response.data);
-        console.log(response.data);
       } catch (error) {
         console.error(error);
       }
@@ -121,12 +118,8 @@ const Home = () => {
             </Button>
           </Box>
         </Grid>
-        <Grid item xs={12} md={6} sx={{ display: { xs: "none", md: "block" } }}>
-          <Carousel autoPlay interval={5000} sx={{ width: "100%" }}>
-            {carouselItems.map((item, index) => (
-              <Item key={index} item={item} />
-            ))}
-          </Carousel>
+        <Grid item xs={12} md={6}>
+          <CarouselComponent carouselItems={carouselItems} />
         </Grid>
       </Grid>
       <br />
@@ -186,7 +179,10 @@ const Home = () => {
                   },
                 }}
               >
-                <CardActionArea component={Link} to="/produits">
+                <CardActionArea
+                  component={Link}
+                  to={`/produits?categorie=${cat.query}`}
+                >
                   <CardMedia
                     sx={{
                       height: 200,
@@ -216,20 +212,6 @@ const Home = () => {
         </Grid>
       </Container>
     </Container>
-  );
-};
-
-const Item = ({ item }) => {
-  return (
-    <img
-      src={item.image}
-      alt={item.caption}
-      style={{
-        objectFit: "cover",
-        width: "100%",
-        borderRadius: "16px",
-      }}
-    />
   );
 };
 

@@ -26,7 +26,7 @@ const Navbar = () => {
 
   return (
     <AppBar
-      maxWidth="lg"
+      maxwidth="lg"
       position="sticky"
       sx={{ bgcolor: "white", borderRadius: "16px" }}
     >
