@@ -18,7 +18,7 @@ const CarouselComponent = ({ carouselItems }) => {
     <Slider {...settings}>
       {carouselItems.map((item, index) => (
         <div key={index}>
-          <img src={item.image} alt={item.caption} />
+          <img src={item.image} alt={item.caption} style={{ width: "100%" }} />
         </div>
       ))}
     </Slider>
