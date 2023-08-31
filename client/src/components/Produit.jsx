@@ -5,13 +5,9 @@ import axios from "../api/axios";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import {
   Button,
-  Card,
-  CardContent,
-  CardMedia,
   Grid,
   Typography,
-  CardActionArea,
-  CardActions,
+  ButtonGroup,
   CircularProgress,
   Box,
   Container,
@@ -20,6 +16,12 @@ import {
 import CarouselComponent from "./CarouselComponent";
 
 const Produit = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  const [qte, setQte] = useState(0);
+
   const productId = useParams().id;
   const [product, setProduct] = useState(null);
   useEffect(() => {
@@ -57,32 +59,45 @@ const Produit = () => {
   return (
     <Container
       sx={{
-        maxWidth: { lg: "65vw", md: "75vw", sm: "85vw", xs: "95vw" },
-        my: 2,
+        display: "flex",
+        marginTop: "12px",
+        justifyContent: "center",
+        width: "100vw",
       }}
     >
       <Paper
-        elevation={3}
+        elevation={6}
         sx={{
           borderRadius: "10px",
+
+          width: { xs: "100%", sm: "90%", md: "85%", lg: "80%" },
         }}
       >
         <Grid container spacing={1} p={1}>
           <Grid item xs={12} sm={6} md={6} lg={6}>
-            <Card>
+            <Paper
+              variant="outlined"
+              sx={{
+                borderColor: "#93370a",
+                borderRadius: "10px",
+                borderWidth: "1px",
+              }}
+            >
               <CarouselComponent carouselItems={carouselItems} />
-            </Card>
+            </Paper>
           </Grid>
           <Grid item xs={12} sm={6} md={6} lg={6}>
             <Grid container direction="column" height="100%">
               <Grid item xs>
-                <Typography typography={{ xs: "h4", sm: "h3" }} align="center">
+                <Typography typography={{ xs: "h5", sm: "h4" }} align="center">
                   {product.nom}
                 </Typography>
                 {product.marque ? (
                   <Typography variant="h6" gutterBottom>
-                    Marque :{" "}
-                    <span style={{ fontWeight: "bold" }}>{product.marque}</span>
+                    Marque :
+                    <span style={{ fontWeight: "bold" }}>
+                      {" " + product.marque}
+                    </span>
                   </Typography>
                 ) : null}
                 <Typography>{product.desc}</Typography>
@@ -96,23 +111,65 @@ const Produit = () => {
                   justifyContent: "flex-end",
                 }}
               >
-                <Typography
-                  typography={{ xs: "h6", sm: "h5" }}
-                  sx={{ textAlign: { xs: "center", sm: "right" } }}
-                  gutterBottom
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-around",
+                    marginBottom: "10px",
+                    marginTop: "10px",
+                  }}
                 >
-                  <span
-                    style={{
-                      color: "#de7c11",
-                      marginRight: "1px",
-                      fontWeight: "bold",
-                    }}
+                  <ButtonGroup variant="outlined" color="bri">
+                    <Button
+                      disabled={qte <= 0}
+                      sx={{ color: "black", fontWeight: "bold" }}
+                      onClick={() => {
+                        setQte((prevQte) => {
+                          return prevQte - 1;
+                        });
+                      }}
+                    >
+                      -
+                    </Button>
+                    <Button
+                      sx={{ color: "black", fontWeight: "bold" }}
+                      variant="contained"
+                      disableElevation
+                      disableTouchRipple
+                    >
+                      {qte || 0}
+                    </Button>
+                    <Button
+                      disabled={qte >= product.qnt}
+                      sx={{ color: "black", fontWeight: "bold" }}
+                      onClick={() => {
+                        setQte((prevQte) => {
+                          return prevQte + 1;
+                        });
+                      }}
+                    >
+                      +
+                    </Button>
+                  </ButtonGroup>
+                  <Typography
+                    typography={{ xs: "h6", sm: "h5" }}
+                    sx={{ textAlign: "center" }}
                   >
-                    {product.prix}
-                  </span>
-                  <span style={{ color: "black" }}>DZD</span>
-                </Typography>
+                    <span
+                      style={{
+                        color: "#de7c11",
+                        marginRight: "1px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {product.prix * qte || product.prix}
+                    </span>
+                    <span style={{ color: "black" }}>DZD</span>
+                  </Typography>
+                </Box>
                 <Button
+                  disabled={!qte}
                   variant="contained"
                   color="yellowgreen"
                   sx={{

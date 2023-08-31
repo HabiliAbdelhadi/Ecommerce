@@ -10,7 +10,7 @@ import {
   CircularProgress,
   Box,
 } from "@mui/material";
-import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+
 import { Link } from "react-router-dom";
 
 const ProductCard = ({ data }) => {
@@ -44,12 +44,17 @@ const ProductCard = ({ data }) => {
       {data.map((item) => (
         <Grid item key={item._id} xs={12} sm={4} md={3}>
           <Card
+            variant="outlined"
             elevation={2}
             sx={{
               //ana chikour bzf
               ":hover": {
                 boxShadow: 16,
+                borderColor: "#fed540",
+                borderWidth: "3px",
               },
+              borderColor: "#93370a",
+              borderRadius: "10px",
             }}
           >
             <CardActionArea component={Link} to={"/produits/" + item._id}>
@@ -85,29 +90,6 @@ const ProductCard = ({ data }) => {
                 </Typography>
               </CardContent>
             </CardActionArea>
-
-            <CardActions
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-              }}
-            >
-              <Button
-                variant="contained"
-                color="yellowgreen"
-                sx={{
-                  fontSize: "small",
-                  color: "black",
-                  bgcolor: "yellowgreen",
-                  borderRadius: "16px",
-                  size: "small",
-                }}
-                endIcon={<AddShoppingCartIcon />}
-              >
-                Ajouter au panier
-              </Button>
-            </CardActions>
           </Card>
         </Grid>
       ))}

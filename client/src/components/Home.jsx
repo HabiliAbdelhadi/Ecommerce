@@ -17,6 +17,9 @@ import { useState, useEffect } from "react";
 import axios from "../api/axios";
 
 const Home = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const carouselItems = [
     {
       image: "Acc2.png",

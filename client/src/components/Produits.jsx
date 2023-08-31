@@ -9,7 +9,7 @@ import {
   Divider,
   Card,
   Button,
-  Drawer,
+  SwipeableDrawer,
   TextField,
   InputAdornment,
   Pagination,
@@ -24,6 +24,7 @@ import {
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
+import DoneIcon from "@mui/icons-material/Done";
 import { useLocation } from "react-router-dom";
 
 const Produits = () => {
@@ -56,6 +57,14 @@ const Produits = () => {
     search: "",
     sex: "",
   });
+  useEffect(() => {
+    if (filter.categorie) {
+      window.scrollTo({
+        top: document.getElementById("products").offsetTop,
+        behavior: "smooth",
+      });
+    }
+  }, [filter]);
   useEffect(() => {
     const fetchData2 = async () => {
       try {
@@ -185,7 +194,10 @@ const Produits = () => {
           </Grid>
         </Grid>
       </Card>
-      <Drawer
+      <SwipeableDrawer
+        onOpen={() => {
+          setDrawer(true);
+        }}
         anchor="left"
         open={drawer}
         onClose={() => {
@@ -227,7 +239,7 @@ const Produits = () => {
                       }));
                     }}
                   >
-                    <MenuItem value={null}>Aucun Filtre</MenuItem>
+                    <MenuItem value={""}>Aucun Filtre</MenuItem>
                     <MenuItem value={"homme"}>Homme</MenuItem>
                     <MenuItem value={"femme"}>Femme</MenuItem>
                     <MenuItem value={"unisex"}>Unisex</MenuItem>
@@ -256,7 +268,7 @@ const Produits = () => {
                       }));
                     }}
                   >
-                    <MenuItem value={null}>Aucun Filtre</MenuItem>
+                    <MenuItem value={""}>Aucun Filtre</MenuItem>
                     <MenuItem value={"bijoux"}>Bijoux</MenuItem>
                     <MenuItem value={"sacs"}>Sacs</MenuItem>
                     <MenuItem value={"lunettes"}>Lunettes</MenuItem>
@@ -294,8 +306,8 @@ const Produits = () => {
               <Box
                 sx={{
                   display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
+                  flexDirection: "row",
+                  justifyContent: "space-around",
                 }}
               >
                 <Button
@@ -311,15 +323,28 @@ const Produits = () => {
                       sex: "",
                     }));
                   }}
+                  sx={{ marginRight: "2px" }}
                 >
                   Réinitialiser les filtres
+                </Button>
+                <Button
+                  variant="contained"
+                  color="success"
+                  endIcon={<DoneIcon />}
+                  onClick={() => {
+                    setDrawer(false);
+                  }}
+                >
+                  Valider
                 </Button>
               </Box>
             </List>
           </Box>
         </Container>
-      </Drawer>
-      <ProductCard data={data2.produits} />
+      </SwipeableDrawer>
+      <div id="products">
+        <ProductCard data={data2.produits} />
+      </div>
       <br />
       {data2.totalPages > 1 ? (
         <Pagination

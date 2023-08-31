@@ -21,6 +21,7 @@ function App() {
         main: "#fed540",
       },
       othercolor: { main: "#93370a" },
+      bri: { main: "#de7c11" },
     },
   });
 

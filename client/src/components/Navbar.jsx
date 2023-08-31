@@ -93,15 +93,10 @@ const Navbar = () => {
               <MenuItem
                 key={1}
                 onClick={handleCloseNavMenu}
-                sx={{ background: "yellowgreen", borderRadius: "12px" }}
                 component={Link}
                 to="/produits"
               >
-                <Typography
-                  variant="h6"
-                  sx={{ color: "black" }}
-                  textAlign="center"
-                >
+                <Typography sx={{ color: "black" }} textAlign="center">
                   Produits
                 </Typography>
               </MenuItem>
