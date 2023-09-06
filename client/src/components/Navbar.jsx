@@ -40,7 +40,7 @@ const Navbar = () => {
               mr: 1,
             }}
           >
-            <img src="LogoSmall.png" alt="Logo" style={{ Height: "2px" }} />
+            <img src="R7_logo.jpg" alt="Logo" style={{ maxHeight: "32px" }} />
           </IconButton>
           {/*this is for big screens*/}
           <Typography
@@ -58,7 +58,7 @@ const Navbar = () => {
               textDecoration: "none",
             }}
           >
-            LuxMerch{/*this is for big screens*/}
+            R7 Shop{/*this is for big screens*/}
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             {/*this is for small screens*/}
@@ -120,7 +120,7 @@ const Navbar = () => {
               mr: 1,
             }}
           >
-            <img src="LogoSmall.png" alt="Logo" style={{ Height: "2px" }} />
+            <img src="R7_logo.jpg" alt="Logo" style={{ maxHeight: "32px" }} />
           </IconButton>
           <Typography
             variant="h5"
@@ -138,7 +138,7 @@ const Navbar = () => {
               textDecoration: "none",
             }}
           >
-            LuxMerch
+            R7 Shop
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <Button

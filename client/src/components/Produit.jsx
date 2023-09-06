@@ -70,11 +70,11 @@ const Produit = () => {
         sx={{
           borderRadius: "10px",
 
-          width: { xs: "100%", sm: "90%", md: "85%", lg: "80%" },
+          width: { xs: "100%", sm: "90%", md: "80%", lg: "70%" },
         }}
       >
         <Grid container spacing={1} p={1}>
-          <Grid item xs={12} sm={6} md={6} lg={6}>
+          <Grid item xs={12} sm={12} md={12} lg={12}>
             <Paper
               variant="outlined"
               sx={{
@@ -86,7 +86,7 @@ const Produit = () => {
               <CarouselComponent carouselItems={carouselItems} />
             </Paper>
           </Grid>
-          <Grid item xs={12} sm={6} md={6} lg={6}>
+          <Grid item xs={12} sm={12} md={12} lg={12}>
             <Grid container direction="column" height="100%">
               <Grid item xs>
                 <Typography typography={{ xs: "h5", sm: "h4" }} align="center">
@@ -123,7 +123,11 @@ const Produit = () => {
                   <ButtonGroup variant="outlined" color="bri">
                     <Button
                       disabled={qte <= 0}
-                      sx={{ color: "black", fontWeight: "bold" }}
+                      sx={{
+                        color: "black",
+                        fontWeight: "bold",
+                        borderRadius: "16px",
+                      }}
                       onClick={() => {
                         setQte((prevQte) => {
                           return prevQte - 1;
@@ -142,7 +146,11 @@ const Produit = () => {
                     </Button>
                     <Button
                       disabled={qte >= product.qnt}
-                      sx={{ color: "black", fontWeight: "bold" }}
+                      sx={{
+                        color: "black",
+                        fontWeight: "bold",
+                        borderRadius: "16px",
+                      }}
                       onClick={() => {
                         setQte((prevQte) => {
                           return prevQte + 1;

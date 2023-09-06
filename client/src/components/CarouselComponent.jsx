@@ -42,13 +42,16 @@ const CarouselComponent = ({ carouselItems }) => {
         marginBottom: "22px",
         marginTop: "2px",
         position: "relative",
-        maxWidth: "100%",
       }}
     >
       <Slider {...settings}>
         {carouselItems.map((item, index) => (
           <div key={index}>
-            <img src={item.image} alt={item.caption} width="100%" />
+            <img
+              src={item.image}
+              alt={item.caption}
+              style={{ width: "100%" }}
+            />
           </div>
         ))}
       </Slider>

@@ -112,7 +112,7 @@ const Home = () => {
               endIcon={<KeyboardDoubleArrowDownIcon />}
               onClick={() => {
                 window.scrollTo({
-                  top: document.getElementById("categories").offsetTop - 50,
+                  top: document.getElementById("featured").offsetTop - 50,
                   behavior: "smooth",
                 });
               }}
@@ -125,29 +125,10 @@ const Home = () => {
           <CarouselComponent carouselItems={carouselItems} />
         </Grid>
       </Grid>
-      <br />
-      {/* ///////////////////////////////////////////////////////////////////////////// */}
-      <Card
-        sx={{ background: "white", borderRadius: "23px", width: "100%" }}
-        elevation={4}
-      >
-        <Divider maxWidth="100vw">
-          <Typography
-            align="center"
-            sx={{ typography: { xs: "h4", sm: "h3" } }}
-            color="#93370a"
-          >
-            Produit Tendance
-          </Typography>
-        </Divider>
-      </Card>
-
-      <ProductCard data={data.produits} />
 
       {/* ///////////////////////////////////////////////////////////////////////////// */}
       <br />
       <Container
-        id="categories"
         maxWidth="lg"
         sx={{ display: "flex", flexDirection: "column", allignItems: "center" }}
       >
@@ -159,7 +140,7 @@ const Home = () => {
           }}
           elevation={4}
         >
-          <Divider maxWidth="100vw">
+          <Divider>
             <Typography
               align="center"
               sx={{ typography: { xs: "h4", sm: "h3" } }}
@@ -214,6 +195,25 @@ const Home = () => {
           ))}
         </Grid>
       </Container>
+      <br />
+      {/* ///////////////////////////////////////////////////////////////////////////// */}
+      <Card
+        id="featured"
+        sx={{ background: "white", borderRadius: "23px", width: "100%" }}
+        elevation={4}
+      >
+        <Divider>
+          <Typography
+            align="center"
+            sx={{ typography: { xs: "h4", sm: "h3" } }}
+            color="#93370a"
+          >
+            Produit Tendance
+          </Typography>
+        </Divider>
+      </Card>
+
+      <ProductCard data={data.produits} />
     </Container>
   );
 };

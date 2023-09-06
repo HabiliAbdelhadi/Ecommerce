@@ -45,7 +45,6 @@ const ProductCard = ({ data }) => {
         <Grid item key={item._id} xs={12} sm={4} md={3}>
           <Card
             variant="outlined"
-            elevation={2}
             sx={{
               //ana chikour bzf
               ":hover": {
