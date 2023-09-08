@@ -12,14 +12,11 @@ import {
   Box,
   Container,
   Paper,
+  Alert,
 } from "@mui/material";
 import CarouselComponent from "./CarouselComponent";
 
 const Produit = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   const [qte, setQte] = useState(0);
 
   const productId = useParams().id;
@@ -35,12 +32,39 @@ const Produit = () => {
     };
 
     fetchData();
-  }, []);
+  }, [productId]);
 
   const carouselItems = product?.pictures.map((picture, index) => ({
     image: [`http://localhost:8000/${picture.replace("public\\", "")}`],
     caption: picture,
   }));
+  const [alert, setAlert] = useState(false);
+  const AddToCart = () => {
+    // Retrieve the current "commande" from local storage
+    const existingCart = JSON.parse(localStorage.getItem("commande")) || [];
+
+    // Check if the product with the same id exists in the cart
+    const existingProductIndex = existingCart.findIndex(
+      (item) => item.id === productId
+    );
+
+    if (existingProductIndex !== -1) {
+      // If the product already exists, update its quantity (qte)
+      existingCart[existingProductIndex].qte = qte;
+    } else {
+      // If the product doesn't exist, add it to the cart
+      existingCart.push({ id: productId, qte: qte });
+    }
+
+    // Save the updated cart back to local storage
+    localStorage.setItem("commande", JSON.stringify(existingCart));
+
+    setAlert(true);
+  };
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [alert]);
 
   if (!product) {
     return (
@@ -60,11 +84,25 @@ const Produit = () => {
     <Container
       sx={{
         display: "flex",
+        flexDirection: "column",
         marginTop: "12px",
         justifyContent: "center",
+        alignItems: "center",
         width: "100vw",
       }}
     >
+      {alert ? (
+        <Alert
+          variant="filled"
+          sx={{ width: "100%", mb: "5px" }}
+          severity="success"
+          onClose={() => {
+            setAlert(false);
+          }}
+        >
+          Article ajouté au panier
+        </Alert>
+      ) : null}
       <Paper
         elevation={6}
         sx={{
@@ -176,6 +214,7 @@ const Produit = () => {
                     <span style={{ color: "black" }}>DZD</span>
                   </Typography>
                 </Box>
+
                 <Button
                   disabled={!qte}
                   variant="contained"
@@ -188,6 +227,7 @@ const Produit = () => {
                     size: "small",
                   }}
                   endIcon={<AddShoppingCartIcon />}
+                  onClick={AddToCart}
                 >
                   Ajouter au panier
                 </Button>

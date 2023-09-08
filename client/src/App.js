@@ -10,6 +10,7 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import Produits from "./components/Produits";
 import Footer from "./components/Footer";
 import Produit from "./components/Produit";
+import Panier from "./components/Panier";
 
 function App() {
   const theme = createTheme({
@@ -44,6 +45,7 @@ function App() {
               <Route path="produits" element={<Produits />}></Route>
               <Route path="/" element={<Home />}></Route>
               <Route path="/produits/:id" element={<Produit />}></Route>
+              <Route path="panier" element={<Panier />}></Route>
             </Route>
 
             {/* else */}
