@@ -1,12 +1,10 @@
 import {
-  Button,
   Card,
   CardContent,
   CardMedia,
   Grid,
   Typography,
   CardActionArea,
-  CardActions,
   CircularProgress,
   Box,
 } from "@mui/material";
