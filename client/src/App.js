@@ -11,7 +11,7 @@ import Produits from "./components/Produits";
 import Footer from "./components/Footer";
 import Produit from "./components/Produit";
 import Panier from "./components/Panier";
-
+import { BadgeProvider } from "./context/BadgeContext";
 function App() {
   const theme = createTheme({
     typography: {
@@ -28,32 +28,35 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          minHeight: "100vh",
-        }} //pushed footer stuff
-      >
-        <Navbar />
-        <div style={{ flexGrow: 1 }}>
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              {/* Public */}
-              <Route path="contact" element={<Contact />}></Route>
-              <Route path="produits" element={<Produits />}></Route>
-              <Route path="/" element={<Home />}></Route>
-              <Route path="/produits/:id" element={<Produit />}></Route>
-              <Route path="panier" element={<Panier />}></Route>
-            </Route>
+      <BadgeProvider>
+        <CssBaseline />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            minHeight: "100vh",
+          }} //pushed footer stuff
+        >
+          <Navbar />
 
-            {/* else */}
-            <Route path="*" element={<Missing />}></Route>
-          </Routes>
+          <div style={{ flexGrow: 1 }}>
+            <Routes>
+              <Route path="/" element={<Layout />}>
+                {/* Public */}
+                <Route path="contact" element={<Contact />}></Route>
+                <Route path="produits" element={<Produits />}></Route>
+                <Route path="/" element={<Home />}></Route>
+                <Route path="/produits/:id" element={<Produit />}></Route>
+                <Route path="panier" element={<Panier />}></Route>
+              </Route>
+
+              {/* else */}
+              <Route path="*" element={<Missing />}></Route>
+            </Routes>
+          </div>
+          <Footer />
         </div>
-        <Footer />
-      </div>
+      </BadgeProvider>
     </ThemeProvider>
   );
 }

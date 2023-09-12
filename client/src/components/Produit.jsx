@@ -14,9 +14,12 @@ import {
   Paper,
   Alert,
 } from "@mui/material";
+import { useBadge } from "../context/BadgeContext";
 import CarouselComponent from "./CarouselComponent";
 
 const Produit = () => {
+  const { updateBadgeCount, badgeCount } = useBadge();
+
   const [qte, setQte] = useState(0);
 
   const productId = useParams().id;
@@ -54,6 +57,7 @@ const Produit = () => {
     } else {
       // If the product doesn't exist, add it to the cart
       existingCart.push({ id: productId, qte: qte });
+      updateBadgeCount(badgeCount + 1);
     }
 
     // Save the updated cart back to local storage
